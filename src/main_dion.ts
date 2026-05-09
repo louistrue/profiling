@@ -64,6 +64,8 @@ interface Result {
   walls: number;
   slabs: number;
   products: number;
+  vertices: number;
+  triangles: number;
   byType: Record<string, number>;
 }
 
@@ -107,6 +109,8 @@ for (const { name, path, size } of ifcFiles) {
   // Category 3 — Geometry: parseMeshes + exclude filter on ifcType
   let tGeom: number | null = null;
   let products = 0;
+  let totalVerts = 0;
+  let totalTris = 0;
   const typeCounts: Record<string, number> = {};
   const origLog = console.log;
   const origWarn = console.warn;
@@ -126,6 +130,8 @@ for (const { name, path, size } of ifcFiles) {
       if (EXCLUDE_TYPES.has(t)) continue;
       seen.add(mesh.expressId);
       typeCounts[t] = (typeCounts[t] ?? 0) + 1;
+      totalVerts += mesh.positions.length / 3;
+      totalTris += mesh.indices.length / 3;
     }
     products = seen.size;
     tGeom = (performance.now() - tg0) / 1000;
@@ -137,13 +143,16 @@ for (const { name, path, size } of ifcFiles) {
   console.log = origLog;
   console.warn = origWarn;
   if (tGeom !== null) {
-    console.log(`  geometry (${products} products): ${tGeom.toFixed(3)}s`);
+    console.log(`  geometry (${products} products, ${totalVerts} verts, ${totalTris} tris): ${tGeom.toFixed(3)}s`);
     for (const [t, c] of Object.entries(typeCounts).sort((a, b) => b[1] - a[1])) {
       console.log(`    ${t}: ${c}`);
     }
   }
 
-  results.push({ file: name, sizeMb, tParse, tQuery, tGeom, walls, slabs, products, byType: typeCounts });
+  results.push({
+    file: name, sizeMb, tParse, tQuery, tGeom, walls, slabs, products,
+    vertices: totalVerts, triangles: totalTris, byType: typeCounts,
+  });
 }
 
 // Summary table (matches Dion's profile_ifc.py format)

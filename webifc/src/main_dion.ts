@@ -59,6 +59,8 @@ interface Result {
   walls: number;
   slabs: number;
   products: number;
+  vertices: number;
+  triangles: number;
   byType: Record<string, number>;
 }
 
@@ -94,7 +96,14 @@ for (const { name, path, size } of ifcFiles) {
   console.log(`  IfcWall: ${walls}, IfcSlab: ${slabs} (query: ${tQuery.toFixed(3)}s)`);
 
   // Category 3 — Geometry: StreamAllMeshes with exclude filter
+  // Geometry data is extracted from WASM (GetVertexArray/GetIndexArray) so we
+  // can report per-engine triangle/vertex output for the geometric-output
+  // panel. The WASM-to-JS extraction adds ~3-6% per Moult's harness shape;
+  // we time it under tGeom so the comparison stays apples-to-apples with
+  // ifc-lite parseMeshes (which also delivers JS-accessible vertex data).
   let products = 0;
+  let totalVerts = 0;
+  let totalTris = 0;
   const typeCounts: Record<string, number> = {};
   let tGeom: number | null = null;
   try {
@@ -105,9 +114,19 @@ for (const { name, path, size } of ifcFiles) {
       if (EXCLUDE_NAMES.has(typeName)) return;
       products++;
       typeCounts[typeName] = (typeCounts[typeName] ?? 0) + 1;
+      const placedGeoms = mesh.geometries;
+      for (let j = 0; j < placedGeoms.size(); j++) {
+        const pg = placedGeoms.get(j);
+        const geom = api.GetGeometry(modelID, pg.geometryExpressID);
+        const verts = api.GetVertexArray(geom.GetVertexData(), geom.GetVertexDataSize());
+        const indices = api.GetIndexArray(geom.GetIndexData(), geom.GetIndexDataSize());
+        totalVerts += verts.length / 6;   // interleaved position+normal
+        totalTris += indices.length / 3;
+        geom.delete();
+      }
     });
     tGeom = (performance.now() - tg0) / 1000;
-    console.log(`  geometry (${products} products): ${tGeom.toFixed(3)}s`);
+    console.log(`  geometry (${products} products, ${totalVerts} verts, ${totalTris} tris): ${tGeom.toFixed(3)}s`);
     for (const [t, c] of Object.entries(typeCounts).sort((a, b) => b[1] - a[1])) {
       console.log(`    ${t}: ${c}`);
     }
@@ -116,7 +135,10 @@ for (const { name, path, size } of ifcFiles) {
   }
   api.CloseModel(modelID);
 
-  results.push({ file: name, sizeMb, tParse, tQuery, tGeom, walls, slabs, products, byType: typeCounts });
+  results.push({
+    file: name, sizeMb, tParse, tQuery, tGeom, walls, slabs, products,
+    vertices: totalVerts, triangles: totalTris, byType: typeCounts,
+  });
 }
 
 const w = Math.max(...results.map((r) => r.file.length)) + 2;

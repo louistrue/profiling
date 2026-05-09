@@ -31,6 +31,8 @@ struct BenchRow {
     products: usize,
     walls: usize,
     slabs: usize,
+    vertices: usize,
+    triangles: usize,
     by_type: BTreeMap<String, u32>,
 }
 
@@ -81,6 +83,8 @@ fn main() {
     let mut products = 0usize;
     let mut walls = 0usize;
     let mut slabs = 0usize;
+    let mut total_verts = 0usize;
+    let mut total_tris = 0usize;
     let mut seen = std::collections::HashSet::new();
     for m in &result.meshes {
         if exclude.contains(m.ifc_type.as_str()) {
@@ -91,6 +95,8 @@ fn main() {
         }
         *by_type.entry(m.ifc_type.clone()).or_default() += 1;
         products += 1;
+        total_verts += m.positions.len() / 3;
+        total_tris += m.indices.len() / 3;
         match m.ifc_type.as_str() {
             "IfcWall" | "IfcWallStandardCase" | "IfcWallElementedCase" => walls += 1,
             "IfcSlab" | "IfcSlabElementedCase" => slabs += 1,
@@ -121,6 +127,8 @@ fn main() {
         products,
         walls,
         slabs,
+        vertices: total_verts,
+        triangles: total_tris,
         by_type,
     };
 

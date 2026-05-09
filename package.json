@@ -5,7 +5,8 @@
   "type": "module",
   "description": "Headless script: load IFC, count walls, process geometry",
   "scripts": {
-    "start": "node node_modules/tsx/dist/cli.mjs src/main.ts",
+    "start": "node --import tsx src/main_dion.ts",
+    "zerocopy": "node --import tsx src/main_zerocopy.ts",
     "perobj": "node node_modules/tsx/dist/cli.mjs src/profile_per_object.ts"
   },
   "dependencies": {
