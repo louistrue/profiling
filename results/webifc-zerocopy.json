@@ -1,0 +1,153 @@
+{
+  "engine": "web-ifc-zerocopy-ref",
+  "date": "2026-05-09T06:06:15.795Z",
+  "results": [
+    {
+      "file": "duplex.ifc",
+      "sizeMb": 2.270472526550293,
+      "tZeroCopyRef": 0.09132262500000002,
+      "vertices": 61478,
+      "triangles": 26774
+    },
+    {
+      "file": "AC20-FZK-Haus.ifc",
+      "sizeMb": 2.4095001220703125,
+      "tZeroCopyRef": 0.094707,
+      "vertices": 39816,
+      "triangles": 21650
+    },
+    {
+      "file": "ISSUE_005_haus.ifc",
+      "sizeMb": 2.4095001220703125,
+      "tZeroCopyRef": 0.09142091699999998,
+      "vertices": 39816,
+      "triangles": 21650
+    },
+    {
+      "file": "ISSUE_021_Mini Project.ifc",
+      "sizeMb": 3.153599739074707,
+      "tZeroCopyRef": 0.300441917,
+      "vertices": 280858,
+      "triangles": 134900
+    },
+    {
+      "file": "Office_A_20110811.ifc",
+      "sizeMb": 3.849381446838379,
+      "tZeroCopyRef": 0.10972349999999995,
+      "vertices": 119601,
+      "triangles": 49985
+    },
+    {
+      "file": "ISSUE_126_model.ifc",
+      "sizeMb": 4.2339677810668945,
+      "tZeroCopyRef": 0.07758387500000004,
+      "vertices": 93210,
+      "triangles": 49857
+    },
+    {
+      "file": "ISSUE_034_HouseZ.ifc",
+      "sizeMb": 4.837787628173828,
+      "tZeroCopyRef": 0.09561066699999993,
+      "vertices": 278865,
+      "triangles": 243115
+    },
+    {
+      "file": "ISSUE_102_M3D-CON.ifc",
+      "sizeMb": 5.985710144042969,
+      "tZeroCopyRef": 0.14663045899999996,
+      "vertices": 428392,
+      "triangles": 204964
+    },
+    {
+      "file": "ISSUE_159_kleine_Wohnung_R22.ifc",
+      "sizeMb": 9.545974731445312,
+      "tZeroCopyRef": 0.34477758300000005,
+      "vertices": 427031,
+      "triangles": 197022
+    },
+    {
+      "file": "C20-Institute-Var-2.ifc",
+      "sizeMb": 10.286822319030762,
+      "tZeroCopyRef": 0.30701999999999996,
+      "vertices": 87440,
+      "triangles": 43772
+    },
+    {
+      "file": "ISSUE_129_N1540_17_EXE_MOD_448200_02_09_11SMC_IGC_V17.ifc",
+      "sizeMb": 11.47335433959961,
+      "tZeroCopyRef": 0.33267654200000013,
+      "vertices": 224922,
+      "triangles": 95920
+    },
+    {
+      "file": "dental_clinic.ifc",
+      "sizeMb": 12.400822639465332,
+      "tZeroCopyRef": 0.417145583,
+      "vertices": 422695,
+      "triangles": 174385
+    },
+    {
+      "file": "FM_ARC_DigitalHub.ifc",
+      "sizeMb": 13.405040740966797,
+      "tZeroCopyRef": 0.5328634579999998,
+      "vertices": 878536,
+      "triangles": 344032
+    },
+    {
+      "file": "ifcbridge-model01.ifc",
+      "sizeMb": 14.468805313110352,
+      "tZeroCopyRef": 0.2188367919999996,
+      "vertices": 263691,
+      "triangles": 109521
+    },
+    {
+      "file": "ISSUE_102_M3D-CON-CD.ifc",
+      "sizeMb": 25.62602710723877,
+      "tZeroCopyRef": 1.406341708,
+      "vertices": 4720178,
+      "triangles": 2288860
+    },
+    {
+      "file": "S_Office_Integrated Design Archi.ifc",
+      "sizeMb": 29.619215965270996,
+      "tZeroCopyRef": 2.711510458,
+      "vertices": 2181394,
+      "triangles": 1168634
+    },
+    {
+      "file": "advanced_model.ifc",
+      "sizeMb": 33.674180030822754,
+      "tZeroCopyRef": 1.2620104159999992,
+      "vertices": 3064482,
+      "triangles": 1265351
+    },
+    {
+      "file": "schependomlaan.ifc",
+      "sizeMb": 47.0037145614624,
+      "tZeroCopyRef": 0.6174392919999991,
+      "vertices": 441447,
+      "triangles": 261505
+    },
+    {
+      "file": "ISSUE_068_ARK_NUS_skolebygg.ifc",
+      "sizeMb": 53.74856090545654,
+      "tZeroCopyRef": 2.173706792000001,
+      "vertices": 3327183,
+      "triangles": 1282753
+    },
+    {
+      "file": "ISSUE_098_R8_F1_MAB_AR_M3_XX_XXX_MO_7000.IFC",
+      "sizeMb": 68.41957664489746,
+      "tZeroCopyRef": 9.883477624999998,
+      "vertices": 3505792,
+      "triangles": 1554296
+    },
+    {
+      "file": "ISSUE_053_20181220Holter_Tower_10.ifc",
+      "sizeMb": 169.24440574645996,
+      "tZeroCopyRef": 5.996182875000002,
+      "vertices": 4746448,
+      "triangles": 2194998
+    }
+  ]
+}

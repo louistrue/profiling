@@ -1,2 +1,8 @@
 node_modules/
 models/
+webifc/models
+results/*.txt
+results/*.log
+ifclite-rs/target/
+.DS_Store
+*.tsbuildinfo

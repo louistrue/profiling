@@ -1,0 +1,153 @@
+{
+  "engine": "ifc-lite-zerocopy",
+  "date": "2026-05-09T06:05:48.021Z",
+  "results": [
+    {
+      "file": "duplex.ifc",
+      "sizeMb": 2.270472526550293,
+      "tZeroCopy": 0.04110887500000001,
+      "vertices": 54103,
+      "triangles": 27429
+    },
+    {
+      "file": "AC20-FZK-Haus.ifc",
+      "sizeMb": 2.4095001220703125,
+      "tZeroCopy": 0.023785082999999985,
+      "vertices": 38042,
+      "triangles": 22286
+    },
+    {
+      "file": "ISSUE_005_haus.ifc",
+      "sizeMb": 2.4095001220703125,
+      "tZeroCopy": 0.021950749999999998,
+      "vertices": 38042,
+      "triangles": 22286
+    },
+    {
+      "file": "ISSUE_021_Mini Project.ifc",
+      "sizeMb": 3.153599739074707,
+      "tZeroCopy": 0.06765408299999999,
+      "vertices": 272757,
+      "triangles": 165584
+    },
+    {
+      "file": "Office_A_20110811.ifc",
+      "sizeMb": 3.849381446838379,
+      "tZeroCopy": 0.04664016700000002,
+      "vertices": 109099,
+      "triangles": 54891
+    },
+    {
+      "file": "ISSUE_126_model.ifc",
+      "sizeMb": 4.2339677810668945,
+      "tZeroCopy": 0.04369100000000003,
+      "vertices": 91087,
+      "triangles": 50121
+    },
+    {
+      "file": "ISSUE_034_HouseZ.ifc",
+      "sizeMb": 4.837787628173828,
+      "tZeroCopy": 0.04256179200000003,
+      "vertices": 276029,
+      "triangles": 242541
+    },
+    {
+      "file": "ISSUE_102_M3D-CON.ifc",
+      "sizeMb": 5.985710144042969,
+      "tZeroCopy": 0.07636116700000002,
+      "vertices": 428392,
+      "triangles": 204964
+    },
+    {
+      "file": "ISSUE_159_kleine_Wohnung_R22.ifc",
+      "sizeMb": 9.545974731445312,
+      "tZeroCopy": 0.18434483299999999,
+      "vertices": 186353,
+      "triangles": 171290
+    },
+    {
+      "file": "C20-Institute-Var-2.ifc",
+      "sizeMb": 10.286822319030762,
+      "tZeroCopy": 0.08779229199999998,
+      "vertices": 79278,
+      "triangles": 44258
+    },
+    {
+      "file": "ISSUE_129_N1540_17_EXE_MOD_448200_02_09_11SMC_IGC_V17.ifc",
+      "sizeMb": 11.47335433959961,
+      "tZeroCopy": 0.128146209,
+      "vertices": 175130,
+      "triangles": 80976
+    },
+    {
+      "file": "dental_clinic.ifc",
+      "sizeMb": 12.400822639465332,
+      "tZeroCopy": 0.16368954099999997,
+      "vertices": 386954,
+      "triangles": 180074
+    },
+    {
+      "file": "FM_ARC_DigitalHub.ifc",
+      "sizeMb": 13.405040740966797,
+      "tZeroCopy": 0.2764715000000001,
+      "vertices": 269069,
+      "triangles": 249222
+    },
+    {
+      "file": "ifcbridge-model01.ifc",
+      "sizeMb": 14.468805313110352,
+      "tZeroCopy": 0.195007292,
+      "vertices": 260667,
+      "triangles": 109507
+    },
+    {
+      "file": "ISSUE_102_M3D-CON-CD.ifc",
+      "sizeMb": 25.62602710723877,
+      "tZeroCopy": 0.9118458330000001,
+      "vertices": 4720598,
+      "triangles": 2288430
+    },
+    {
+      "file": "S_Office_Integrated Design Archi.ifc",
+      "sizeMb": 29.619215965270996,
+      "tZeroCopy": 0.3638657920000001,
+      "vertices": 2106740,
+      "triangles": 1152848
+    },
+    {
+      "file": "advanced_model.ifc",
+      "sizeMb": 33.674180030822754,
+      "tZeroCopy": 0.444299,
+      "vertices": 3068926,
+      "triangles": 1345679
+    },
+    {
+      "file": "schependomlaan.ifc",
+      "sizeMb": 47.0037145614624,
+      "tZeroCopy": 0.44852949999999964,
+      "vertices": 437474,
+      "triangles": 262489
+    },
+    {
+      "file": "ISSUE_068_ARK_NUS_skolebygg.ifc",
+      "sizeMb": 53.74856090545654,
+      "tZeroCopy": 0.7183114160000005,
+      "vertices": 3517137,
+      "triangles": 1515536
+    },
+    {
+      "file": "ISSUE_098_R8_F1_MAB_AR_M3_XX_XXX_MO_7000.IFC",
+      "sizeMb": 68.41957664489746,
+      "tZeroCopy": 0.8466220000000003,
+      "vertices": 3225703,
+      "triangles": 1559428
+    },
+    {
+      "file": "ISSUE_053_20181220Holter_Tower_10.ifc",
+      "sizeMb": 169.24440574645996,
+      "tZeroCopy": 3.888770540999999,
+      "vertices": 5188891,
+      "triangles": 2880069
+    }
+  ]
+}

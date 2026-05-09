@@ -9,11 +9,11 @@
     "perobj": "node node_modules/tsx/dist/cli.mjs src/profile_per_object.ts"
   },
   "dependencies": {
-    "@ifc-lite/data": "workspace:*",
-    "@ifc-lite/geometry": "workspace:*",
-    "@ifc-lite/parser": "workspace:*",
-    "@ifc-lite/query": "workspace:*",
-    "@ifc-lite/wasm": "workspace:*"
+    "@ifc-lite/data": "1.15.2",
+    "@ifc-lite/geometry": "1.17.0",
+    "@ifc-lite/parser": "2.3.0",
+    "@ifc-lite/query": "1.14.7",
+    "@ifc-lite/wasm": "1.16.8"
   },
   "devDependencies": {
     "tsx": "^4.0.0",

@@ -1,0 +1,32 @@
+{
+  "timestamp": "2026-05-09T07:08:00+02:00",
+  "host": "louiss-macbook-air-2",
+  "cpu": "Apple M4",
+  "cores": 10,
+  "ram_gb": 16,
+  "os": "macOS 26.4.1 (build 25E253)",
+  "node": "v22.14.0",
+  "pnpm": "10.8.1",
+  "python": "3.9.6",
+  "engines": {
+    "ifc-lite": {
+      "@ifc-lite/parser": "2.3.0",
+      "@ifc-lite/wasm": "1.16.8",
+      "@ifc-lite/data": "1.15.2",
+      "@ifc-lite/geometry": "1.17.0",
+      "@ifc-lite/query": "1.14.7"
+    },
+    "web-ifc": "0.0.68 (resolved per package-lock; latest available 0.0.77)",
+    "ifcopenshell": "not yet run on this host"
+  },
+  "model_corpus": {
+    "set": "Moult/profiling public 21 of 26 (private*.ifc not available)",
+    "source": "symlinked from ../ifc-lite/tests/models/ara3d",
+    "missing_vs_moult": ["private1.ifc", "private2.ifc", "private3.ifc", "private4.ifc", "private5.ifc"]
+  },
+  "harness": {
+    "fork": "github.com/louistrue/profiling",
+    "upstream": "github.com/Moult/profiling@master",
+    "modifications": ["package.json: workspace:* -> pinned latest published"]
+  }
+}
