@@ -28,6 +28,7 @@ correctness/
 | T3 Point-set | symmetric Hausdorff + mean (Chamfer-style) on area-sampled points, normalized by element bbox diagonal | shape drift, tessellation mismatch |
 | T4 Topology | watertight-after-weld, Euler number, surface area | non-manifold output, missing faces |
 | T5 Voxel IoU | Jaccard on a shared occupancy grid | kernel-agnostic shape correctness; works on open meshes |
+| T6 Semantic | walk `IfcRelVoidsElement` / `IfcRelFillsElement`; check opening is cut from host and filler bbox aligns with opening | uncut openings, misaligned fillers — finds defects that *both* engines miss (caught by schema, not by IOS comparison) |
 
 Per-IFC-type thresholds (in `THRESHOLDS` at the top of `diff.py`). Verdict
 priority: `fail:position` (bbox) → `fail:shape` (voxel) → `fail:volume` (hull)
@@ -86,3 +87,7 @@ Defects surfaced (today's bench can't see these):
   deterministic across all instances.
 - `Muro básico` walls with openings: bbox matches but voxel IoU 0.46–0.65 →
   opening cuts differ between engines.
+- T6-only finding: 10 advanced_model walls/slabs where ifc-lite has the
+  opening *fully filled* (`wall_fraction_in_opening` = 1.00) — undetectable
+  by T5 because IOS also fails to cut these same openings, so the engines
+  agree and the mesh-comparison passes. Schema-based check catches it.

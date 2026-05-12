@@ -45,6 +45,8 @@ IOS_NDJSON="$OUT_DIR/$NAME.ios.ndjson"
 SUMMARY="$OUT_DIR/$NAME.summary.json"
 PER_ELEM="$OUT_DIR/$NAME.per-element.ndjson"
 HTML="$OUT_DIR/$NAME.report.html"
+SEMANTIC="$OUT_DIR/$NAME.semantic.json"
+SEMANTIC_NDJSON="$OUT_DIR/$NAME.semantic.ndjson"
 
 echo ">> ifc-lite native dump"
 "$DUMP_BIN" "$MODEL" "$LITE_NDJSON"
@@ -52,9 +54,13 @@ echo ">> ifc-lite native dump"
 echo ">> IfcOpenShell dump"
 python3 "$ROOT/correctness/dump_ifcopenshell.py" "$MODEL" "$IOS_NDJSON"
 
-echo ">> diff"
+echo ">> diff (T1-T5)"
 python3 "$ROOT/correctness/diff.py" "$LITE_NDJSON" "$IOS_NDJSON" \
   --out "$SUMMARY" --per-element "$PER_ELEM" --html "$HTML"
+
+echo ">> semantic (T6 opening-cut and filler-alignment)"
+python3 "$ROOT/correctness/semantic.py" "$MODEL" "$LITE_NDJSON" \
+  --out "$SEMANTIC" --per-pair "$SEMANTIC_NDJSON"
 
 echo ""
 echo "Outputs in $OUT_DIR:"
@@ -63,3 +69,5 @@ echo "  $IOS_NDJSON"
 echo "  $SUMMARY"
 echo "  $PER_ELEM"
 echo "  $HTML"
+echo "  $SEMANTIC"
+echo "  $SEMANTIC_NDJSON"
