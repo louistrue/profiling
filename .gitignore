@@ -4,5 +4,8 @@ webifc/models
 results/*.txt
 results/*.log
 ifclite-rs/target/
+correctness/dump_ifclite_native/target/
+correctness/dump_ifclite_native/Cargo.lock
+correctness/results/
 .DS_Store
 *.tsbuildinfo
