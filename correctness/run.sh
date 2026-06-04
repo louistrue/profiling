@@ -52,7 +52,9 @@ echo ">> ifc-lite native dump"
 "$DUMP_BIN" "$MODEL" "$LITE_NDJSON"
 
 echo ">> IfcOpenShell dump"
-python3 "$ROOT/correctness/dump_ifcopenshell.py" "$MODEL" "$IOS_NDJSON"
+# Pass the local-frame anchor the native dumper wrote (georeferenced models)
+# so both engines are compared near the origin (f32-safe). Harmless when absent.
+python3 "$ROOT/correctness/dump_ifcopenshell.py" "$MODEL" "$IOS_NDJSON" "$LITE_NDJSON.origin"
 
 echo ">> diff (T1-T5)"
 python3 "$ROOT/correctness/diff.py" "$LITE_NDJSON" "$IOS_NDJSON" \

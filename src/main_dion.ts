@@ -20,7 +20,8 @@ import { fileURLToPath } from 'node:url';
 import { writeFileSync } from 'node:fs';
 
 import { StepTokenizer } from '@ifc-lite/parser';
-import initWasm, { IfcAPI } from '@ifc-lite/wasm';
+import initWasm from '@ifc-lite/wasm';
+import { GeometryProcessor } from '@ifc-lite/geometry';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const MODELS_DIR = resolve(__dirname, '..', 'models');
@@ -118,18 +119,22 @@ for (const { name, path, size } of ifcFiles) {
   console.warn = () => {};
   try {
     const tg0 = performance.now();
-    const api = new IfcAPI();
-    const content = new TextDecoder().decode(buffer);
-    const collection = api.parseMeshes(content);
+    // @ifc-lite/wasm 2.x removed the high-level `IfcAPI.parseMeshes`; the
+    // production geometry pipeline now runs through `GeometryProcessor`
+    // (pre-pass + batched `processGeometryBatch`), the same path the viewer
+    // uses. Count each product once by expressId but accumulate verts/tris
+    // across ALL its sub-meshes (windows/doors emit a mesh per frame/glass
+    // part), so totals reflect the full element, not just its first part.
+    const processor = new GeometryProcessor();
+    const result = await processor.process(new Uint8Array(buffer));
     const seen = new Set<number>();
-    for (let i = 0; i < collection.length; i++) {
-      const mesh = collection.get(i);
-      if (!mesh) continue;
-      if (seen.has(mesh.expressId)) continue;
+    for (const mesh of result.meshes) {
       const t = mesh.ifcType || 'Unknown';
       if (EXCLUDE_TYPES.has(t)) continue;
-      seen.add(mesh.expressId);
-      typeCounts[t] = (typeCounts[t] ?? 0) + 1;
+      if (!seen.has(mesh.expressId)) {
+        seen.add(mesh.expressId);
+        typeCounts[t] = (typeCounts[t] ?? 0) + 1;
+      }
       totalVerts += mesh.positions.length / 3;
       totalTris += mesh.indices.length / 3;
     }

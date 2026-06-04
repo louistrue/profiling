@@ -21,10 +21,23 @@ EXCLUDE = ["IfcOpeningElement", "IfcOpeningStandardCase", "IfcSpace", "IfcBuildi
 
 
 def main():
-    if len(sys.argv) != 3:
-        print("usage: dump_ifcopenshell.py <model.ifc> <out.ndjson>", file=sys.stderr)
+    if len(sys.argv) not in (3, 4):
+        print("usage: dump_ifcopenshell.py <model.ifc> <out.ndjson> [origin.txt]", file=sys.stderr)
         sys.exit(2)
     model_path, out_path = sys.argv[1], sys.argv[2]
+
+    # Optional local-frame anchor (georeferenced models). The ifc-lite dumper
+    # writes the site translation it subtracted to a `<lite>.origin` sidecar so
+    # both engines are compared in one near-origin frame — otherwise IOS's
+    # national-grid world coordinates (1e6+) overflow f32 precision on the
+    # ifc-lite side and fabricate shape failures. Subtract the SAME anchor here.
+    anchor = (0.0, 0.0, 0.0)
+    if len(sys.argv) == 4 and os.path.exists(sys.argv[3]):
+        with open(sys.argv[3]) as fh:
+            parts = fh.read().split()
+            if len(parts) >= 3:
+                anchor = (float(parts[0]), float(parts[1]), float(parts[2]))
+    ax, ay, az = anchor
 
     t0 = time.perf_counter()
     f = ifcopenshell.open(model_path)
@@ -55,6 +68,10 @@ def main():
                     if not iterator.next():
                         break
                     continue
+                if ax or ay or az:
+                    verts = [
+                        v - (ax, ay, az)[i % 3] for i, v in enumerate(verts)
+                    ]
                 rec = {
                     "express_id": eid,
                     "guid": getattr(shape, "guid", None) or getattr(ent, "GlobalId", None),

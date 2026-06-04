@@ -33,9 +33,12 @@ struct Record<'a> {
     indices: &'a [u32],
 }
 
-/// Apply a column-major 4x4 transform to flat [x,y,z,...] vertex data.
+/// Apply a column-major 4x4 transform to flat [x,y,z,...] vertex data, then
+/// subtract `anchor` — all in f64 before the single f32 store, so the result
+/// stays precise even when the transform lands vertices at national-grid
+/// coordinates (subtracting the anchor brings them back near the origin).
 /// Treats the matrix as homogeneous; the w component of the output is dropped.
-fn transform_in_place(positions: &mut [f32], m: &[f64]) {
+fn transform_in_place(positions: &mut [f32], m: &[f64], anchor: &[f64; 3]) {
     debug_assert!(m.len() >= 16);
     // Column-major: m[col*4 + row]
     let m00 = m[0]; let m10 = m[1]; let m20 = m[2];  // first column
@@ -46,9 +49,9 @@ fn transform_in_place(positions: &mut [f32], m: &[f64]) {
         let x = chunk[0] as f64;
         let y = chunk[1] as f64;
         let z = chunk[2] as f64;
-        chunk[0] = (m00 * x + m01 * y + m02 * z + m03) as f32;
-        chunk[1] = (m10 * x + m11 * y + m12 * z + m13) as f32;
-        chunk[2] = (m20 * x + m21 * y + m22 * z + m23) as f32;
+        chunk[0] = (m00 * x + m01 * y + m02 * z + m03 - anchor[0]) as f32;
+        chunk[1] = (m10 * x + m11 * y + m12 * z + m13 - anchor[1]) as f32;
+        chunk[2] = (m20 * x + m21 * y + m22 * z + m23 - anchor[2]) as f32;
     }
 }
 
@@ -95,15 +98,81 @@ fn main() {
     // We apply site_transform if present and non-identity; building_transform
     // is intentionally not applied since IOS's world coords are at site level.
     let site = result.site_transform.as_ref();
-    let apply_site = site
+    let mut apply_site = site
         .map(|m| !is_identity_transform(m))
         .unwrap_or(false);
+    if env::var("NO_SITE").is_ok() {
+        apply_site = false;
+    }
+    if env::var("SITE_DEBUG").is_ok() {
+        if let Some(m) = site {
+            // Column-major 4x4: print the 3x3 rotation columns to check
+            // orthonormality (non-orthonormal => the site transform shears).
+            eprintln!("SITE_DEBUG col0=({:.5},{:.5},{:.5}) col1=({:.5},{:.5},{:.5}) col2=({:.5},{:.5},{:.5})",
+                m[0], m[1], m[2], m[4], m[5], m[6], m[8], m[9], m[10]);
+            let dot01 = m[0]*m[4] + m[1]*m[5] + m[2]*m[6];
+            let n0 = (m[0]*m[0]+m[1]*m[1]+m[2]*m[2]).sqrt();
+            let n1 = (m[4]*m[4]+m[5]*m[5]+m[6]*m[6]).sqrt();
+            eprintln!("SITE_DEBUG |col0|={:.5} |col1|={:.5} col0·col1={:.6} (orthonormal => ~1,~1,~0)", n0, n1, dot01);
+        } else {
+            eprintln!("SITE_DEBUG: no site_transform");
+        }
+    }
+
+    // Local-frame anchor for georeferenced models.
+    //
+    // For `site_local` / georeferenced models the site translation lands
+    // vertices at national-grid coordinates (e.g. 1.66e6 easting, 8.18e6
+    // northing). f32 resolution there is 0.125–0.5 m, which quantizes a
+    // column's ±0.5 m cross-section into garbage — fabricating "shape"
+    // failures that have nothing to do with ifc-lite's geometry (its raw
+    // output and the orthonormal site rotation are both exact). Production
+    // keeps vertices in a local/RTC frame for exactly this reason.
+    //
+    // So we apply the site ROTATION (to match IOS world orientation) but
+    // subtract the site TRANSLATION, keeping vertices near the origin and
+    // f32-safe. The subtracted anchor is written to `<out>.origin` so the
+    // IfcOpenShell dumper can subtract the SAME anchor and both engines are
+    // compared in one local frame.
+    let anchor: [f64; 3] = match site {
+        Some(m) if apply_site => [m[12], m[13], m[14]],
+        _ => [0.0, 0.0, 0.0],
+    };
+    if anchor != [0.0, 0.0, 0.0] {
+        let origin_path = format!("{}.origin", out_path);
+        let _ = fs::write(
+            &origin_path,
+            format!("{} {} {}\n", anchor[0], anchor[1], anchor[2]),
+        );
+    } else {
+        // Remove any stale anchor from a previous run so the IOS dumper
+        // doesn't subtract an origin we no longer use.
+        let _ = fs::remove_file(format!("{}.origin", out_path));
+    }
 
     let out = fs::File::create(out_path).expect("create out");
     let mut w = BufWriter::new(out);
 
-    let mut emitted = 0usize;
-    let mut seen = HashSet::new();
+    // Merge all sub-meshes that share an express_id into one record.
+    //
+    // ifc-lite emits ONE mesh per geometry sub-part: a window/door with a
+    // frame + glazing (or 4 extruded frame members) produces several
+    // `MeshData` records, all keyed by the *element's* express_id. IfcOpenShell
+    // emits a single welded mesh per element. To compare apples-to-apples we
+    // concatenate every sub-mesh of an element here, offsetting the index base
+    // by the running vertex count. (Previously this dumper kept only the first
+    // sub-mesh per express_id, which dropped 3 of 4 window-frame members and
+    // ~⅔ of door geometry — fabricating "missing geometry" failures that don't
+    // exist in ifc-lite's actual output.)
+    struct Merged<'a> {
+        guid: Option<&'a str>,
+        ty: &'a str,
+        name: Option<&'a str>,
+        positions: Vec<f32>,
+        indices: Vec<u32>,
+    }
+    let mut order: Vec<u32> = Vec::new();
+    let mut merged: std::collections::HashMap<u32, Merged> = std::collections::HashMap::new();
     for m in &result.meshes {
         if exclude.contains(m.ifc_type.as_str()) {
             continue;
@@ -111,22 +180,41 @@ fn main() {
         if m.positions.is_empty() || m.indices.is_empty() {
             continue;
         }
-        if !seen.insert(m.express_id) {
-            continue;
-        }
-        let mut positions = m.positions.clone();
+        let entry = merged.entry(m.express_id).or_insert_with(|| {
+            order.push(m.express_id);
+            Merged {
+                guid: m.global_id.as_deref(),
+                ty: m.ifc_type.as_str(),
+                name: m.name.as_deref(),
+                positions: Vec::new(),
+                indices: Vec::new(),
+            }
+        });
+        let base = (entry.positions.len() / 3) as u32;
+        entry.positions.extend_from_slice(&m.positions);
+        entry.indices.extend(m.indices.iter().map(|&i| i + base));
+    }
+
+    let mut emitted = 0usize;
+    for id in &order {
+        let entry = &merged[id];
+        let mut positions = entry.positions.clone();
         if apply_site {
             if let Some(s) = site {
-                transform_in_place(&mut positions, s);
+                // Apply the site transform and re-base into the local frame
+                // (world-oriented, near-origin) in one f64 pass — keeps f32
+                // storage precise for georeferenced models. `anchor` is (0,0,0)
+                // for non-georef models, making this the plain site transform.
+                transform_in_place(&mut positions, s, &anchor);
             }
         }
         let rec = Record {
-            express_id: m.express_id,
-            guid: m.global_id.as_deref(),
-            ty: m.ifc_type.as_str(),
-            name: m.name.as_deref(),
+            express_id: *id,
+            guid: entry.guid,
+            ty: entry.ty,
+            name: entry.name,
             positions,
-            indices: &m.indices,
+            indices: &entry.indices,
         };
         let line = serde_json::to_string(&rec).expect("json");
         writeln!(w, "{}", line).expect("write");
