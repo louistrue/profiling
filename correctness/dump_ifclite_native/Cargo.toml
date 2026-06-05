@@ -19,8 +19,8 @@ default = ["manifold"]
 manifold = ["ifc-lite-geometry/manifold-csg"]
 
 [dependencies]
-ifc-lite-processing = { path = "../../../ifc-lite/.claude/worktrees/geometry-correctness/rust/processing" }
-ifc-lite-geometry = { path = "../../../ifc-lite/.claude/worktrees/geometry-correctness/rust/geometry", default-features = false }
+ifc-lite-processing = { path = "../../../ifc-lite/rust/processing" }
+ifc-lite-geometry = { path = "../../../ifc-lite/rust/geometry", default-features = false }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 

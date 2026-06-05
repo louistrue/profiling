@@ -134,8 +134,22 @@ fn main() {
     // f32-safe. The subtracted anchor is written to `<out>.origin` so the
     // IfcOpenShell dumper can subtract the SAME anchor and both engines are
     // compared in one local frame.
+    //
+    // Gate on GEOREF scale: only true georeferenced models (national-grid
+    // translations, 1e5+) lose f32 precision. Ordinary building-site offsets
+    // (a few metres, e.g. advanced_model's 12 m) are sub-millimetre in f32, so
+    // anchoring them is unnecessary and would only break apples-to-apples with
+    // un-anchored reference dumps. Threshold 5e4: f32 step there is ~4 mm.
+    const GEOREF_ANCHOR_THRESHOLD: f64 = 5.0e4;
     let anchor: [f64; 3] = match site {
-        Some(m) if apply_site => [m[12], m[13], m[14]],
+        Some(m) if apply_site => {
+            let t = [m[12], m[13], m[14]];
+            if t.iter().any(|c| c.abs() > GEOREF_ANCHOR_THRESHOLD) {
+                t
+            } else {
+                [0.0, 0.0, 0.0]
+            }
+        }
         _ => [0.0, 0.0, 0.0],
     };
     if anchor != [0.0, 0.0, 0.0] {
