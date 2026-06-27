@@ -7,9 +7,14 @@ edition = "2021"
 name = "ifclite-bench"
 path = "src/main.rs"
 
+# Native is built against a dedicated read-only `main` worktree
+# (`../../ifc-lite-main-bench`), NOT the live ifc-lite working tree, so the
+# bench always reflects latest published `main` and never a local feature branch.
+# Refresh with: ./scripts/refresh-engines.sh  (git -C ../ifc-lite-main-bench checkout origin/main)
 [dependencies]
-ifc-lite-processing = { path = "../../ifc-lite/rust/processing" }
-ifc-lite-core = { path = "../../ifc-lite/rust/core" }
+ifc-lite-processing = { path = "../../ifc-lite-main-bench/rust/processing" }
+ifc-lite-core = { path = "../../ifc-lite-main-bench/rust/core" }
+ifc-lite-geometry = { path = "../../ifc-lite-main-bench/rust/geometry" }
 rayon = "1.10"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"

@@ -3,18 +3,20 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Headless script: load IFC, count walls, process geometry",
+  "description": "Headless script: load IFC, count walls, process geometry. Always benchmarks LATEST PUBLISHED @ifc-lite (npm) for WASM and latest main (source worktree) for native.",
   "scripts": {
     "start": "node --import tsx src/main_dion.ts",
     "zerocopy": "node --import tsx src/main_zerocopy.ts",
-    "perobj": "node node_modules/tsx/dist/cli.mjs src/profile_per_object.ts"
+    "perobj": "node node_modules/tsx/dist/cli.mjs src/profile_per_object.ts",
+    "native": "node run_native.mjs",
+    "update:latest": "npm install @ifc-lite/data@latest @ifc-lite/geometry@latest @ifc-lite/parser@latest @ifc-lite/query@latest @ifc-lite/wasm@latest && cd webifc && npm install web-ifc@latest"
   },
   "dependencies": {
-    "@ifc-lite/data": "2.0.0",
-    "@ifc-lite/geometry": "2.1.0",
-    "@ifc-lite/parser": "3.0.0",
-    "@ifc-lite/query": "1.14.8",
-    "@ifc-lite/wasm": "2.1.3"
+    "@ifc-lite/data": "2.2.0",
+    "@ifc-lite/geometry": "2.12.0",
+    "@ifc-lite/parser": "3.5.0",
+    "@ifc-lite/query": "1.14.10",
+    "@ifc-lite/wasm": "2.13.4"
   },
   "devDependencies": {
     "tsx": "^4.0.0",
