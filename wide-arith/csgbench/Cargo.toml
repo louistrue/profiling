@@ -1,0 +1,23 @@
+[package]
+name = "csgbench"
+version = "0.0.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[[bin]]
+name = "csgbench-native"
+path = "src/main.rs"
+
+[dependencies]
+ifc-lite-geometry = { path = "/Users/louistrue/Development/ifc-lite-main-bench/rust/geometry", default-features = false }
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+overflow-checks = false
+
+[workspace]
