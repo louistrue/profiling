@@ -7,16 +7,15 @@ edition = "2021"
 name = "ifclite-dump"
 path = "src/main.rs"
 
-[features]
-# Default to the Manifold C++ CSG kernel, matching production browser/desktop
-# (WASM `manifold-csg-wasm-uu`; native desktop default `manifold-csg`). Build
-# with `--no-default-features` to exercise the legacy BSP path the native
-# server (`@ifc-lite/server-bin`, `apps/server`) actually runs, so the
-# correctness comparison can cover BOTH production kernels. Without selecting a
-# kernel here, `ifc-lite-processing` pulls geometry with `default-features =
-# false` (BSP) — testing a kernel only the server uses.
-default = ["manifold"]
-manifold = ["ifc-lite-geometry/manifold-csg"]
+[[bin]]
+name = "thickness"
+path = "src/thickness.rs"
+
+# NOTE (2026-07-17): the Manifold/BSP kernel split is gone — ifc-lite M9
+# consolidated on ONE pure-Rust exact CSG kernel, and the old
+# `manifold-csg` feature no longer exists in ifc-lite-geometry. Every
+# deployment (browser WASM, server, CLI) now runs the same kernel, so a
+# plain default build IS the production path.
 
 [dependencies]
 ifc-lite-processing = { path = "../../../ifc-lite/rust/processing" }

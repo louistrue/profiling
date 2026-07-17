@@ -12,14 +12,19 @@
     "update:latest": "npm install @ifc-lite/data@latest @ifc-lite/geometry@latest @ifc-lite/parser@latest @ifc-lite/query@latest @ifc-lite/wasm@latest && cd webifc && npm install web-ifc@latest"
   },
   "dependencies": {
-    "@ifc-lite/data": "2.2.0",
-    "@ifc-lite/geometry": "2.12.0",
-    "@ifc-lite/parser": "3.5.0",
-    "@ifc-lite/query": "1.14.10",
-    "@ifc-lite/wasm": "2.13.4"
+    "@ifc-lite/data": "2.6.0",
+    "@ifc-lite/geometry": "3.2.1",
+    "@ifc-lite/parser": "3.9.1",
+    "@ifc-lite/query": "1.14.13",
+    "@ifc-lite/wasm": "4.0.1"
   },
   "devDependencies": {
     "tsx": "^4.0.0",
     "typescript": "^5.3.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
   }
 }

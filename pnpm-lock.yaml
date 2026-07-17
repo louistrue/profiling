@@ -9,20 +9,20 @@ importers:
   .:
     dependencies:
       '@ifc-lite/data':
-        specifier: 2.2.0
-        version: 2.2.0
+        specifier: 2.6.0
+        version: 2.6.0
       '@ifc-lite/geometry':
-        specifier: 2.12.0
-        version: 2.12.0
+        specifier: 3.2.1
+        version: 3.2.1
       '@ifc-lite/parser':
-        specifier: 3.5.0
-        version: 3.5.0
+        specifier: 3.9.1
+        version: 3.9.1
       '@ifc-lite/query':
-        specifier: 1.14.10
-        version: 1.14.10
+        specifier: 1.14.13
+        version: 1.14.13
       '@ifc-lite/wasm':
-        specifier: 2.13.4
-        version: 2.13.4
+        specifier: 4.0.1
+        version: 4.0.1
     devDependencies:
       tsx:
         specifier: ^4.0.0
@@ -189,47 +189,60 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@ifc-lite/data@2.2.0':
-    resolution: {integrity: sha512-/PjVAabdVfJFbnp92p4ow+aGu+N5dWLn7f9igcLsRCOx/g8MAAI68T8WK3RcPhlicVr7kh7LHPyo2vA9B48dzQ==}
+  '@ifc-lite/data@2.5.3':
+    resolution: {integrity: sha512-UNmhD+dC8mBko7KSAZg7suwRewaeJpFmjiuFvdOMB5OteRwPjV35GcMKPTZjz0nisuKyKr4lb+CPiCw1hKhFyg==}
 
-  '@ifc-lite/encoding@1.14.7':
-    resolution: {integrity: sha512-c1i7JlDYclxWlo0lB8qHmmgqAsIINNgFnC23zDUqRJFgC/dVXK+ereLk1A54LIWkhwCTQNTzOP5VGlxlSWbyBQ==}
+  '@ifc-lite/data@2.6.0':
+    resolution: {integrity: sha512-jfM1NHJSzzGnGpAuakBUeHiNRKqbxwrA8/7oUYaUtIwdFa5rpVg1oKGzQ+cDTbebBh+sDyEYhksaVqSNm8QepQ==}
 
-  '@ifc-lite/geometry@2.11.0':
-    resolution: {integrity: sha512-GBcyf7lq2fZD8yP5hsCX/iUusXy/0YF4MIhuw/dnZSvSiYnIqnDyocqE5g3Vh5XEFI46YS9C19/uC0QEtUGb3A==}
+  '@ifc-lite/encoding@1.14.10':
+    resolution: {integrity: sha512-6agHMWF7hk1bTTdn6WqnR+zfjljB5jkUB5wgbGYgYEokUS7X7TtUKoQYv8SgCZft6yNhKugcCHj3KcDLRWpFQg==}
 
-  '@ifc-lite/geometry@2.12.0':
-    resolution: {integrity: sha512-bNffACqf+y59ep88qWgHShPGG07rE7RiVb3j/CJrP4f1dKWyspDpmQx68vYi5u/fb7RxW7D9zQSQzF8XGzCoWQ==}
+  '@ifc-lite/encoding@1.14.11':
+    resolution: {integrity: sha512-hGIJOlIjQ2I9SrlnLcM8vuN3sgwOzOotQ+RgSQsG9zT8qKBPF0EQJLugi/Zj87NM4qsJHrF+BhyRXto/UmM7Tg==}
 
-  '@ifc-lite/ifcx@2.1.5':
-    resolution: {integrity: sha512-wS8JxezCPN2B4zF++1mQMX0yR3OeDT+3FXxd+8idDm+dWlj0sFrR7zAF9fajivoCmJk3YZL0tx0fekUxaMGltA==}
+  '@ifc-lite/geometry@3.2.0':
+    resolution: {integrity: sha512-3tMVLFJlq5IldsfKKGUfQ+XhupQ1R69N0q9UvcuONlmugEBW0d8c0N6ZKux7LtICZ3dLCcfzpTsnGIvwMF7DIQ==}
 
-  '@ifc-lite/mutations@1.16.0':
-    resolution: {integrity: sha512-IyUi4jIm0orDuppg8QkDKC5aKX4H1w/oMbJsa3DHyqvL7nJt18ai0S/fSdVCBRO/l8gYOOTCtt8xuOlZDz5XJw==}
+  '@ifc-lite/geometry@3.2.1':
+    resolution: {integrity: sha512-DfrM1l+OmdA1zzISg8ewMolV+ac20HWEgFGEU2/+OMvH71ieeNZX1eOJGpuyq1qPwb7asbmTzAhiKgdHIW3JCg==}
 
-  '@ifc-lite/parser@3.4.0':
-    resolution: {integrity: sha512-6oA9CrpiWJEhFGHiAgLDfiJLuz1nE4sc6nsIMAZJ6652vYZcmELnbu84M8OZHw+BKQY2XPxVHEVis3ncOF1odw==}
+  '@ifc-lite/ifcx@2.3.0':
+    resolution: {integrity: sha512-yTKqgccqxCiLq6DPhTMRnJ8WfOoXdBBRG/5GjcfyGT6p7r7OuREfCjLkZaNTOFkWtBZ7fpwKpO1Ms9KGQVaLsw==}
 
-  '@ifc-lite/parser@3.5.0':
-    resolution: {integrity: sha512-S1S7hhPKNOI/hOCSSysIgVv066w9KvoqgUkBh0rA9swH1sGqfHUEryiDx2NGQOUtr9hFbaVXCYp29xdlux9S8g==}
+  '@ifc-lite/mutations@1.20.0':
+    resolution: {integrity: sha512-mnU6kiHUL5hpECp6OemWpXv1M+8NwFJ9c2pG5fHKEZKmocFWMfj9rN0hibMCr0EE/CQqLUitGn/Xri9tDKay7w==}
 
-  '@ifc-lite/pointcloud@0.3.3':
-    resolution: {integrity: sha512-XgF9yhOyTjT2YvvCzIdFo4IYsM++drpzbAAo+pyLaVVe3l3Ki9UEZLYx9V46upEelzu4hkyF8aT00zXnaWauZw==}
+  '@ifc-lite/parser@3.8.5':
+    resolution: {integrity: sha512-219cjX9YC4SMawzcXywOAyFzErUviJL+E3yudH/PvZfgUxBhGBQlR8M3gh7uMbjqWuo5jN5ht0H91wmkjyUPAA==}
 
-  '@ifc-lite/query@1.14.10':
-    resolution: {integrity: sha512-AQSHKMkSsn4fJ9exl472BIvqJK3YwIzhgdIBovDgnWnlNTIrrVfOLgo9/ioYLxJ4t5GwhTU1Kd6vGbZ+B6u2jA==}
+  '@ifc-lite/parser@3.9.1':
+    resolution: {integrity: sha512-d4TaqXmkASDcyVkFLkm3xb2KDAHMRQB+/bsxEW9hu4EFdQ+tStI3f2OqigebZh7qQop/NhRDQ/o85k0hVSEObA==}
 
-  '@ifc-lite/spatial@1.14.9':
-    resolution: {integrity: sha512-2iUeQr2j/l5fnGD7AhBu76dbrxc/YQsgifWpazVu6ISQoe15xkijnyy8ymaMw3cO+CnoUVBb+MtlcqRdbvE5Bg==}
+  '@ifc-lite/pointcloud@0.3.5':
+    resolution: {integrity: sha512-a59yLHT5CFrXWyA+HVF+sjIR7BfIXK8bd6ld+k4j2GG1jJT8GSj9RrDiZhz/+zv+eJhQ2zBRRXORjod3s4U6/w==}
 
-  '@ifc-lite/wasm@2.13.3':
-    resolution: {integrity: sha512-LNwwloM814yTs5CG6FxjI2lGBIHRcE8BopKPV9rimX62nCSwxdV330AugyHex5X6fMwtGTFWP2JBjsK++czRVg==}
+  '@ifc-lite/query@1.14.13':
+    resolution: {integrity: sha512-S/t4QXGAtan3dwS8nDgPHb+KpJmkS5VGBKjEAuhV0m0CWVP0uB5Cah02FSk3pzW+KmvHWzv8WqDIAIkq86kYIw==}
 
-  '@ifc-lite/wasm@2.13.4':
-    resolution: {integrity: sha512-KEKkULGUyBGmK/uQuiQoxV3Qkgthl+bg0DFri1juWPqAVcqIO44Kw2n+dexqT47TpsejdUrsur3SRbrqB5I85g==}
+  '@ifc-lite/spatial@1.14.12':
+    resolution: {integrity: sha512-5n3nP9k6s9067TI7xpCBbkSfEMSz2CZ6R99dBU6N/5dhsMY/TMGLtMq3YNsvgqO6WEDw3c/9dpVwsWfhcu0jJA==}
+
+  '@ifc-lite/wasm@4.0.0':
+    resolution: {integrity: sha512-bEBdQy6MKn3w7hhlC3O/j1MqH+7fouGy5C0D3824Yx9ckZf9a54GqFDqY8UuIvh6FYzXKbuqpZp8TYrmr0qSgw==}
+
+  '@ifc-lite/wasm@4.0.1':
+    resolution: {integrity: sha512-6q/dRZRfznuyFP6d05e98kBFGLSqYG7VgOwhSpdyCRlnrcv07GY3fmoyTyRxzU+jykqQbh4sIng62bdsahD+qg==}
+
+  '@noble/hashes@2.2.0':
+    resolution: {integrity: sha512-IYqDGiTXab6FniAgnSdZwgWbomxpy9FtYvLKs7wCUs2a8RkITG+DFGO1DM9cr+E3/RgADRpFjrKVaJ1z6sjtEg==}
+    engines: {node: '>= 20.19.0'}
 
   '@tauri-apps/api@2.11.1':
     resolution: {integrity: sha512-M2FPuYND2m+wh5hfW9ZpSdxMPdEJovPBWwoHJmwUpysTYNHaOkVFN419m/K0LIgjb/7KU2vBgsUepJWugQCvAA==}
+
+  core-util-is@1.0.3:
+    resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
 
   esbuild@0.28.0:
     resolution: {integrity: sha512-sNR9MHpXSUV/XB4zmsFKN+QgVG82Cc7+/aaxJ8Adi8hyOac+EXptIp45QBPaVyX3N70664wRbTcLTOemCAnyqw==}
@@ -241,8 +254,41 @@ packages:
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
 
+  immediate@3.0.6:
+    resolution: {integrity: sha512-XXOFtyqDjNDAQxVfYxuF7g9Il/IbWmmlQg2MYKOH8ExIT1qg6xc4zyS3HaEEATgs1btfzxq15ciUiY7gjSXRGQ==}
+
+  inherits@2.0.4:
+    resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
+
+  isarray@1.0.0:
+    resolution: {integrity: sha512-VLghIWNM6ELQzo7zwmcg0NmTVyWKYjvIeM83yjp0wRDTmUnrM678fQbcKBo6n2CJEF0szoG//ytg+TKla89ALQ==}
+
+  jszip@3.10.1:
+    resolution: {integrity: sha512-xXDvecyTpGLrqFrvkrUSoxxfJI5AH7U8zxxtVclpsUtMCq4JQ290LY8AW5c7Ggnr/Y/oK+bQMbqK2qmtk3pN4g==}
+
   laz-perf@0.0.7:
     resolution: {integrity: sha512-2xRqm/f/2UqDS5qqkjOyDb6uVIjkVw6SGmQlMoTQliVWkZhPfIbUJTubUl3mTloaWqKcjlS/urmP1CYoxelsEg==}
+
+  lie@3.3.0:
+    resolution: {integrity: sha512-UaiMJzeWRlEujzAuw5LokY1L5ecNQYZKfmyZ9L7wDHb/p5etKaxXhohBcrw0EYby+G/NA52vRSN4N39dxHAIwQ==}
+
+  pako@1.0.11:
+    resolution: {integrity: sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==}
+
+  process-nextick-args@2.0.1:
+    resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
+
+  readable-stream@2.3.8:
+    resolution: {integrity: sha512-8p0AUk4XODgIewSi0l8Epjs+EVnWiK7NoDIEGU0HhE7+ZyY8D1IMY7odu5lRrFXGg71L15KG8QrPmum45RTtdA==}
+
+  safe-buffer@5.1.2:
+    resolution: {integrity: sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==}
+
+  setimmediate@1.0.5:
+    resolution: {integrity: sha512-MATJdZp8sLqDl/68LfQmbP8zKPLQNV6BIZoIgrscFDQ+RsvK/BxeDQOgyxKKoh0y/8h3BqVFnCqQ/gd+reiIXA==}
+
+  string_decoder@1.1.1:
+    resolution: {integrity: sha512-n/ShnvDi6FHbbVfviro+WojiFzv+s8MPMHBczVePfUpDJLwoLT0ht1l4YwBCbi8pJAveEEdnkHyPyTP/mzRfwg==}
 
   tsx@4.22.4:
     resolution: {integrity: sha512-X8EX+XV4QR5xCsrgxaED954zTDfY8KqlDtskKEL0cHhyS/P8b4IFOvGDQpsC9Q1XnLq915wEfwwY/zzskCtmhg==}
@@ -253,6 +299,9 @@ packages:
     resolution: {integrity: sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==}
     engines: {node: '>=14.17'}
     hasBin: true
+
+  util-deprecate@1.0.2:
+    resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
 snapshots:
 
@@ -334,69 +383,81 @@ snapshots:
   '@esbuild/win32-x64@0.28.0':
     optional: true
 
-  '@ifc-lite/data@2.2.0': {}
+  '@ifc-lite/data@2.5.3': {}
 
-  '@ifc-lite/encoding@1.14.7': {}
+  '@ifc-lite/data@2.6.0': {}
 
-  '@ifc-lite/geometry@2.11.0':
+  '@ifc-lite/encoding@1.14.10': {}
+
+  '@ifc-lite/encoding@1.14.11': {}
+
+  '@ifc-lite/geometry@3.2.0':
     dependencies:
-      '@ifc-lite/data': 2.2.0
-      '@ifc-lite/wasm': 2.13.3
+      '@ifc-lite/data': 2.5.3
+      '@ifc-lite/wasm': 4.0.0
     optionalDependencies:
       '@tauri-apps/api': 2.11.1
 
-  '@ifc-lite/geometry@2.12.0':
+  '@ifc-lite/geometry@3.2.1':
     dependencies:
-      '@ifc-lite/data': 2.2.0
-      '@ifc-lite/wasm': 2.13.4
+      '@ifc-lite/data': 2.6.0
+      '@ifc-lite/wasm': 4.0.1
     optionalDependencies:
       '@tauri-apps/api': 2.11.1
 
-  '@ifc-lite/ifcx@2.1.5':
+  '@ifc-lite/ifcx@2.3.0':
     dependencies:
-      '@ifc-lite/data': 2.2.0
-      '@ifc-lite/mutations': 1.16.0
-      '@ifc-lite/pointcloud': 0.3.3
+      '@ifc-lite/data': 2.5.3
+      '@ifc-lite/mutations': 1.20.0
+      '@ifc-lite/pointcloud': 0.3.5
+      '@noble/hashes': 2.2.0
 
-  '@ifc-lite/mutations@1.16.0':
+  '@ifc-lite/mutations@1.20.0':
     dependencies:
-      '@ifc-lite/data': 2.2.0
+      '@ifc-lite/data': 2.5.3
+      '@noble/hashes': 2.2.0
 
-  '@ifc-lite/parser@3.4.0':
+  '@ifc-lite/parser@3.8.5':
     dependencies:
-      '@ifc-lite/data': 2.2.0
-      '@ifc-lite/encoding': 1.14.7
-      '@ifc-lite/ifcx': 2.1.5
-      '@ifc-lite/wasm': 2.13.3
+      '@ifc-lite/data': 2.5.3
+      '@ifc-lite/encoding': 1.14.10
+      '@ifc-lite/ifcx': 2.3.0
+      '@ifc-lite/wasm': 4.0.0
+      jszip: 3.10.1
 
-  '@ifc-lite/parser@3.5.0':
+  '@ifc-lite/parser@3.9.1':
     dependencies:
-      '@ifc-lite/data': 2.2.0
-      '@ifc-lite/encoding': 1.14.7
-      '@ifc-lite/ifcx': 2.1.5
-      '@ifc-lite/wasm': 2.13.4
+      '@ifc-lite/data': 2.6.0
+      '@ifc-lite/encoding': 1.14.11
+      '@ifc-lite/ifcx': 2.3.0
+      '@ifc-lite/wasm': 4.0.1
+      jszip: 3.10.1
 
-  '@ifc-lite/pointcloud@0.3.3':
+  '@ifc-lite/pointcloud@0.3.5':
     dependencies:
       laz-perf: 0.0.7
 
-  '@ifc-lite/query@1.14.10':
+  '@ifc-lite/query@1.14.13':
     dependencies:
-      '@ifc-lite/data': 2.2.0
-      '@ifc-lite/geometry': 2.11.0
-      '@ifc-lite/parser': 3.4.0
-      '@ifc-lite/spatial': 1.14.9
+      '@ifc-lite/data': 2.5.3
+      '@ifc-lite/geometry': 3.2.0
+      '@ifc-lite/parser': 3.8.5
+      '@ifc-lite/spatial': 1.14.12
 
-  '@ifc-lite/spatial@1.14.9':
+  '@ifc-lite/spatial@1.14.12':
     dependencies:
-      '@ifc-lite/geometry': 2.11.0
+      '@ifc-lite/geometry': 3.2.0
 
-  '@ifc-lite/wasm@2.13.3': {}
+  '@ifc-lite/wasm@4.0.0': {}
 
-  '@ifc-lite/wasm@2.13.4': {}
+  '@ifc-lite/wasm@4.0.1': {}
+
+  '@noble/hashes@2.2.0': {}
 
   '@tauri-apps/api@2.11.1':
     optional: true
+
+  core-util-is@1.0.3: {}
 
   esbuild@0.28.0:
     optionalDependencies:
@@ -430,7 +491,46 @@ snapshots:
   fsevents@2.3.3:
     optional: true
 
+  immediate@3.0.6: {}
+
+  inherits@2.0.4: {}
+
+  isarray@1.0.0: {}
+
+  jszip@3.10.1:
+    dependencies:
+      lie: 3.3.0
+      pako: 1.0.11
+      readable-stream: 2.3.8
+      setimmediate: 1.0.5
+
   laz-perf@0.0.7: {}
+
+  lie@3.3.0:
+    dependencies:
+      immediate: 3.0.6
+
+  pako@1.0.11: {}
+
+  process-nextick-args@2.0.1: {}
+
+  readable-stream@2.3.8:
+    dependencies:
+      core-util-is: 1.0.3
+      inherits: 2.0.4
+      isarray: 1.0.0
+      process-nextick-args: 2.0.1
+      safe-buffer: 5.1.2
+      string_decoder: 1.1.1
+      util-deprecate: 1.0.2
+
+  safe-buffer@5.1.2: {}
+
+  setimmediate@1.0.5: {}
+
+  string_decoder@1.1.1:
+    dependencies:
+      safe-buffer: 5.1.2
 
   tsx@4.22.4:
     dependencies:
@@ -439,3 +539,5 @@ snapshots:
       fsevents: 2.3.3
 
   typescript@5.9.3: {}
+
+  util-deprecate@1.0.2: {}

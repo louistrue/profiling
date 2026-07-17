@@ -38,7 +38,7 @@ struct Record<'a> {
 /// stays precise even when the transform lands vertices at national-grid
 /// coordinates (subtracting the anchor brings them back near the origin).
 /// Treats the matrix as homogeneous; the w component of the output is dropped.
-fn transform_in_place(positions: &mut [f32], m: &[f64], anchor: &[f64; 3]) {
+fn transform_in_place(positions: &mut [f64], m: &[f64], anchor: &[f64; 3]) {
     debug_assert!(m.len() >= 16);
     // Column-major: m[col*4 + row]
     let m00 = m[0]; let m10 = m[1]; let m20 = m[2];  // first column
@@ -46,12 +46,12 @@ fn transform_in_place(positions: &mut [f32], m: &[f64], anchor: &[f64; 3]) {
     let m02 = m[8]; let m12 = m[9]; let m22 = m[10]; // third column
     let m03 = m[12]; let m13 = m[13]; let m23 = m[14]; // translation
     for chunk in positions.chunks_exact_mut(3) {
-        let x = chunk[0] as f64;
-        let y = chunk[1] as f64;
-        let z = chunk[2] as f64;
-        chunk[0] = (m00 * x + m01 * y + m02 * z + m03 - anchor[0]) as f32;
-        chunk[1] = (m10 * x + m11 * y + m12 * z + m13 - anchor[1]) as f32;
-        chunk[2] = (m20 * x + m21 * y + m22 * z + m23 - anchor[2]) as f32;
+        let x = chunk[0];
+        let y = chunk[1];
+        let z = chunk[2];
+        chunk[0] = m00 * x + m01 * y + m02 * z + m03 - anchor[0];
+        chunk[1] = m10 * x + m11 * y + m12 * z + m13 - anchor[1];
+        chunk[2] = m20 * x + m21 * y + m22 * z + m23 - anchor[2];
     }
 }
 
@@ -182,7 +182,9 @@ fn main() {
         guid: Option<&'a str>,
         ty: &'a str,
         name: Option<&'a str>,
-        positions: Vec<f32>,
+        /// f64, with the per-mesh local-frame `origin` already folded in
+        /// (world = origin + position); f32 would collapse georef-scale sums.
+        positions: Vec<f64>,
         indices: Vec<u32>,
     }
     let mut order: Vec<u32> = Vec::new();
@@ -205,23 +207,34 @@ fn main() {
             }
         });
         let base = (entry.positions.len() / 3) as u32;
-        entry.positions.extend_from_slice(&m.positions);
+        // Fold the per-mesh local-frame origin: `positions` are RELATIVE to
+        // `m.origin` (world = origin + position). Elements that get a local
+        // frame (large placements) would otherwise dump centred on (0,0,0) —
+        // fabricating fail:position verdicts against IOS world coords.
+        let o = m.origin;
+        entry.positions.reserve(m.positions.len());
+        for chunk in m.positions.chunks_exact(3) {
+            entry.positions.push(chunk[0] as f64 + o[0]);
+            entry.positions.push(chunk[1] as f64 + o[1]);
+            entry.positions.push(chunk[2] as f64 + o[2]);
+        }
         entry.indices.extend(m.indices.iter().map(|&i| i + base));
     }
 
     let mut emitted = 0usize;
     for id in &order {
         let entry = &merged[id];
-        let mut positions = entry.positions.clone();
+        let mut positions_f64 = entry.positions.clone();
         if apply_site {
             if let Some(s) = site {
                 // Apply the site transform and re-base into the local frame
                 // (world-oriented, near-origin) in one f64 pass — keeps f32
                 // storage precise for georeferenced models. `anchor` is (0,0,0)
                 // for non-georef models, making this the plain site transform.
-                transform_in_place(&mut positions, s, &anchor);
+                transform_in_place(&mut positions_f64, s, &anchor);
             }
         }
+        let positions: Vec<f32> = positions_f64.iter().map(|&v| v as f32).collect();
         let rec = Record {
             express_id: *id,
             guid: entry.guid,
