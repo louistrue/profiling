@@ -202,8 +202,24 @@ def main():
     ap.add_argument("--samples", type=int, default=200,
                     help="points sampled inside each opening's volume")
     ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument("--anchor", default=None,
+                    help="path to the dumper's <ndjson>.origin anchor file "
+                         "(georeferenced models: the candidate dump is "
+                         "anchor-rebased near the origin; the IOS-derived "
+                         "opening meshes here must be shifted the same way "
+                         "or every pair reads as misaligned)")
     args = ap.parse_args()
     np.random.seed(args.seed)
+
+    anchor = np.zeros(3)
+    if args.anchor:
+        try:
+            anchor = np.array([float(v) for v in
+                               Path(args.anchor).read_text().split()[:3]])
+            if np.any(anchor != 0):
+                print(f"anchor: {anchor}", file=sys.stderr)
+        except FileNotFoundError:
+            pass  # non-georef model: dumper wrote no .origin file
 
     cand_by_guid = load_candidate(Path(args.candidate))
     print(f"loaded {len(cand_by_guid)} candidate elements", file=sys.stderr)
@@ -227,6 +243,12 @@ def main():
     print("meshing openings…", file=sys.stderr)
     t0 = time.perf_counter()
     openings = mesh_openings(ifc) if rels_voids else {}
+    if np.any(anchor != 0):
+        # Rebase the IOS world-coord opening meshes into the candidate's
+        # anchor-local frame so both sides of every T6 comparison share it.
+        for o in openings.values():
+            pos = np.asarray(o["positions"], dtype=np.float64).reshape(-1, 3)
+            o["positions"] = (pos - anchor).reshape(-1).tolist()
     print(f"  meshed {len(openings)} openings in {time.perf_counter()-t0:.2f}s",
           file=sys.stderr)
 

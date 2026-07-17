@@ -62,6 +62,7 @@ python3 "$ROOT/correctness/diff.py" "$LITE_NDJSON" "$IOS_NDJSON" \
 
 echo ">> semantic (T6 opening-cut and filler-alignment)"
 python3 "$ROOT/correctness/semantic.py" "$MODEL" "$LITE_NDJSON" \
+  --anchor "$LITE_NDJSON.origin" \
   --out "$SEMANTIC" --per-pair "$SEMANTIC_NDJSON"
 
 echo ""
