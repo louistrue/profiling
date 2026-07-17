@@ -1,0 +1,33 @@
+{
+  "engine": "web-ifc",
+  "date": "2026-06-27T05:01:43.800Z",
+  "results": [
+    {
+      "file": "duplex.ifc",
+      "sizeMb": 2.270472526550293,
+      "tParse": 0.01936099999999999,
+      "tQuery": 0.00033183300000001737,
+      "tGeom": 0.063832917,
+      "walls": 57,
+      "slabs": 21,
+      "products": 216,
+      "vertices": 61478,
+      "triangles": 26774,
+      "byType": {
+        "IFCSLAB": 21,
+        "IFCWALLSTANDARDCASE": 56,
+        "IFCWALL": 1,
+        "IFCSTAIRFLIGHT": 2,
+        "IFCROOF": 1,
+        "IFCFOOTING": 7,
+        "IFCRAILING": 4,
+        "IFCWINDOW": 24,
+        "IFCBEAM": 8,
+        "IFCFURNISHINGELEMENT": 61,
+        "IFCCOVERING": 13,
+        "IFCDOOR": 14,
+        "IFCMEMBER": 4
+      }
+    }
+  ]
+}

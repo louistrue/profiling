@@ -20,8 +20,7 @@ import { fileURLToPath } from 'node:url';
 import { writeFileSync } from 'node:fs';
 
 import { StepTokenizer } from '@ifc-lite/parser';
-import initWasm from '@ifc-lite/wasm';
-import { GeometryProcessor } from '@ifc-lite/geometry';
+import initWasm, { IfcAPI } from '@ifc-lite/wasm';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const MODELS_DIR = resolve(__dirname, '..', 'models');
@@ -119,24 +118,53 @@ for (const { name, path, size } of ifcFiles) {
   console.warn = () => {};
   try {
     const tg0 = performance.now();
-    // @ifc-lite/wasm 2.x removed the high-level `IfcAPI.parseMeshes`; the
-    // production geometry pipeline now runs through `GeometryProcessor`
-    // (pre-pass + batched `processGeometryBatch`), the same path the viewer
-    // uses. Count each product once by expressId but accumulate verts/tris
-    // across ALL its sub-meshes (windows/doors emit a mesh per frame/glass
-    // part), so totals reflect the full element, not just its first part.
-    const processor = new GeometryProcessor();
-    const result = await processor.process(new Uint8Array(buffer));
+    // FAIRNESS (2026-07-17): drive the wasm API directly — `buildPrePassOnce`
+    // + ONE `processGeometryBatch` over all jobs + per-mesh extraction — the
+    // exact work-shape of the web-ifc row (StreamAllMeshes + GetVertexArray/
+    // GetIndexArray): parse -> per-element meshes with placements baked and
+    // colors resolved, delivered as JS-accessible typed arrays. The previous
+    // `GeometryProcessor.process()` route ALSO ran the viewer's BufferBuilder
+    // (GPU-ready concatenated buffers) and coordinate shifting inside tGeom —
+    // work the web-ifc row never does. What stays in (deliberately, it's the
+    // engine's quality contract, not harness overhead): exact-arithmetic void
+    // cuts, material/layer resolution.
+    // Count each product once by expressId but accumulate verts/tris across
+    // ALL its sub-meshes (windows/doors emit a mesh per frame/glass part).
+    const api = new IfcAPI();
+    const bytes = new Uint8Array(buffer);
+    const pre = api.buildPrePassOnce(bytes) as {
+      jobs?: Uint32Array; totalJobs?: number; unitScale: number;
+      rtcOffset?: Float64Array; needsShift: boolean;
+      voidKeys: Uint32Array; voidCounts: Uint32Array; voidValues: Uint32Array;
+      styleIds: Uint32Array; styleColors: Uint8Array;
+      planeAngleToRadians?: number | null;
+      materialElementIds?: Uint32Array | null;
+      materialColorCounts?: Uint32Array | null;
+      materialColors?: Uint8Array | null;
+    };
     const seen = new Set<number>();
-    for (const mesh of result.meshes) {
-      const t = mesh.ifcType || 'Unknown';
-      if (EXCLUDE_TYPES.has(t)) continue;
-      if (!seen.has(mesh.expressId)) {
-        seen.add(mesh.expressId);
-        typeCounts[t] = (typeCounts[t] ?? 0) + 1;
+    if (pre.jobs && (pre.totalJobs ?? 0) > 0) {
+      const collection = api.processGeometryBatch(
+        bytes, pre.jobs, pre.unitScale,
+        pre.rtcOffset?.[0] ?? 0, pre.rtcOffset?.[1] ?? 0, pre.rtcOffset?.[2] ?? 0,
+        pre.needsShift, pre.voidKeys, pre.voidCounts, pre.voidValues,
+        pre.styleIds, pre.styleColors, pre.planeAngleToRadians,
+        pre.materialElementIds, pre.materialColorCounts, pre.materialColors,
+      ) as { length: number; get(i: number): { expressId: number; ifcType?: string; positions: Float32Array; indices: Uint32Array } | undefined; free?: () => void };
+      for (let i = 0; i < collection.length; i++) {
+        const mesh = collection.get(i);
+        if (!mesh) continue;
+        const t = mesh.ifcType || 'Unknown';
+        if (EXCLUDE_TYPES.has(t)) continue;
+        if (!seen.has(mesh.expressId)) {
+          seen.add(mesh.expressId);
+          typeCounts[t] = (typeCounts[t] ?? 0) + 1;
+        }
+        totalVerts += mesh.positions.length / 3;
+        totalTris += mesh.indices.length / 3;
       }
-      totalVerts += mesh.positions.length / 3;
-      totalTris += mesh.indices.length / 3;
+      collection.free?.();
+      (api as unknown as { clearPrePassCache?: () => void }).clearPrePassCache?.();
     }
     products = seen.size;
     tGeom = (performance.now() - tg0) / 1000;

@@ -1,0 +1,19 @@
+{
+  "engine": "ifc-lite",
+  "date": "2026-06-27T05:30:53.987Z",
+  "results": [
+    {
+      "file": "ISSUE_053_20181220Holter_Tower_10.ifc",
+      "sizeMb": 169.24440574645996,
+      "tParse": 1.297646833,
+      "tQuery": 0.000002791000000115673,
+      "tGeom": null,
+      "walls": 572,
+      "slabs": 4090,
+      "products": 0,
+      "vertices": 0,
+      "triangles": 0,
+      "byType": {}
+    }
+  ]
+}

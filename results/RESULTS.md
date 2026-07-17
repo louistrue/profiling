@@ -1,5 +1,37 @@
 # IFC engine comparison
 
+> **UPDATE 2026-07-17 — engines refreshed, harness made fairer, correctness added.**
+> Everything below the update block reflects the original May-June 2026 run
+> (web-ifc 0.0.68, `@ifc-lite/wasm` 2.13.4) and is kept for history. Current
+> state, from a back-to-back re-run on the same M4:
+>
+> - **Engines**: ifc-lite native + WASM at 4.0.1 (exact-arithmetic CSG kernel),
+>   web-ifc **0.0.77**. web-ifc got ~2.3-4x faster on boolean-heavy models since
+>   0.68 (their own tracked benchmark confirms the jump landed mostly in 0.69) —
+>   constant-factor engineering, no boolean skipping.
+> - **Fair harness**: the ifc-lite WASM row now drives `buildPrePassOnce` + one
+>   `processGeometryBatch` + per-mesh JS vertex extraction — the same work-shape
+>   as web-ifc's `StreamAllMeshes` + `GetVertexArray/GetIndexArray` row. The
+>   previous route also timed viewer-only GPU-buffer construction.
+> - **Standing (parse+geometry total, single cold run per file)**: web-ifc 0.0.77
+>   wins single-threaded WASM on most of the corpus (typically 1.3-4x, up to ~20x
+>   on the boolean monsters ISSUE_098 / ISSUE_129 / 170_KM). ifc-lite native
+>   (10 threads) wins most models — e.g. Holter 169MB 1.5s vs 3.1s — but not the
+>   boolean monsters. ifc-lite no longer fails any model in the corpus
+>   (the historical Holter WASM failure was a JS wrapper bug, fixed).
+> - **The trade, made explicit**: ifc-lite cuts every opening with exact
+>   arithmetic; web-ifc uses approximate fuzzy booleans (tolerance-based, with a
+>   live tail of upstream geometry-regression issues). The `correctness/`
+>   framework (T1-T6 vs IfcOpenShell) shows ifc-lite at 99.9%+ element-level
+>   agreement on this corpus — duplex 0 failures, ISSUE_098 9 of 11,123,
+>   ISSUE_129 2 of 959. Speed and exactness are being traded in both directions;
+>   read the two result sets together.
+> - Raw rows: `results/ifclite-dion.json`, `results/webifc-dion.json`,
+>   `results/ifclite-native-{1c,max}.json` (2026-07-17); the previous run is
+>   preserved as `*.pre-round4.json` / `*.web-ifc-0.0.68.json` /
+>   `*.jul16-03366edf.json`.
+
+
 Apples-to-apples profiling under the methodology of `Moult/profiling`. Three
 categories preserved from the upstream harness (Parse, Geometry, Total). One
 category proposed (Zero-copy / GPU-ready geometry buffer).
